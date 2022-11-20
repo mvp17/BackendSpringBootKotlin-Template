@@ -10,8 +10,8 @@ import javax.persistence.GenerationType
 @Entity
 @Table
 data class Student(
-    val name: String,
-    val email: String,
+    var name: String,
+    var email: String,
     val age: Int,
     @Id
     @SequenceGenerator(
