@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface StudentRepository: JpaRepository<Student, Long> {
-    @Query("SELECT s FROM Student s WHERE s.email = ?1")
+    @Query("select s from Student s where s.email = ?1")
     fun findStudentByEmail(email: String): Student?
 }

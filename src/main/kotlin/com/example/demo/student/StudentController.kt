@@ -15,24 +15,29 @@ import org.springframework.web.bind.annotation.RestController
 class StudentController(private val studentService: StudentService) {
 
     @GetMapping
-    fun getStudents(): List<Student> {
-        return studentService.getStudents()
+    fun findStudents(): List<Student> {
+        return studentService.findStudents()
+    }
+
+    @GetMapping("/{id}")
+    fun findStudent(@PathVariable id: Long): Student {
+        return studentService.findStudentBy(id)
     }
 
     @PostMapping
-    fun registerNewStudent(@RequestBody student: Student) {
-        studentService.addNewStudent(student)
+    fun addStudent(@RequestBody student: Student) {
+        studentService.addStudent(student)
     }
 
-    @DeleteMapping(path = ["{studentId}"])
-    fun deleteStudent(@PathVariable("studentId") studentId: Long) {
-        studentService.deleteStudent(studentId)
+    @DeleteMapping("/{id}")
+    fun deleteStudent(@PathVariable id: Long) {
+        studentService.deleteStudent(id)
     }
 
-    @PutMapping(path = ["{studentId}"])
-    fun updateStudent(@PathVariable("studentId") studentId: Long,
+    @PutMapping("/{id}")
+    fun updateStudent(@PathVariable  id: Long,
                     @RequestParam(required = false) name: String?,
                     @RequestParam(required = false) email: String?) {
-        studentService.updateStudent(studentId, name, email)
+        studentService.updateStudent(id, name, email)
     }
 }

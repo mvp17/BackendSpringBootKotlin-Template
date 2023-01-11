@@ -24,4 +24,4 @@ data class Student(
         generator = "student_sequence"
     )
     val id: Long,
-    )
+)

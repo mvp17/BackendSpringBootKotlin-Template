@@ -1,19 +1,26 @@
 package com.example.demo.student
 
+import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.server.ResponseStatusException
 import java.util.Objects
 
 
 @Service
 class StudentService(private val studentRepository: StudentRepository) {
     @GetMapping
-    fun getStudents(): List<Student> {
+    fun findStudents(): List<Student> {
         return studentRepository.findAll()
     }
 
-    fun addNewStudent(student: Student) {
+    @GetMapping
+    fun findStudentBy(id: Long): Student {
+        return studentRepository.findById(id).orElseThrow { throw ResponseStatusException(HttpStatus.NOT_FOUND, "Student not found!")}
+    }
+
+    fun addStudent(student: Student) {
         val studentEmail: Student? = studentRepository.findStudentByEmail(student.email)
         // If studentEmail isPresent (JAVA)
         if (studentEmail != null)
@@ -28,6 +35,7 @@ class StudentService(private val studentRepository: StudentRepository) {
         studentRepository.deleteById(studentId)
     }
 
+    // In the update method, if it is needed to provide a body to update the entire object, use @RequestBody
     @Transactional
     fun updateStudent(studentId: Long, name: String?, email: String?) {
         val student: Student = studentRepository.findById(studentId)
